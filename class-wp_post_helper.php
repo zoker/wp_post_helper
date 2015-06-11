@@ -330,7 +330,10 @@ function remote_get_file($url = null, $file_dir = '') {
 	}
 
 	// remote get!
-	$photo = $file_dir . basename($url);
+	$path_parts = pathinfo(basename($url));
+	$url_md5 = md5($url);
+	$filename = $url_md5 . '.' . $path_parts['extension'];
+	$photo = $file_dir . $filename;
 	if ( !file_exists($photo) ) {
 		$response = wp_remote_get($url);
 		if ( !is_wp_error($response) && $response["response"]["code"] === 200 ) {
